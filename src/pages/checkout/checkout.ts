@@ -49,10 +49,12 @@ export class CheckoutPage {
       this.userInfo = userLoginInfo.user;
 
       let email = userLoginInfo.user.email;
+      let id = userLoginInfo.user.id;
 
-      this.WooCommerce.getAsync("customers/email/"+email).then( (data) => {
+      this.WooCommerce.getAsync("customers/"+id).then((data) => {
 
         this.newOrder = JSON.parse(data.body).customer;
+        //console.log(this.newOrder)
 
       })
 
@@ -88,13 +90,16 @@ placeOrder(){
    });
 
   data = {
-    payment_details :{
+    /*payment_details :{
       method_id: paymentData.method_id,
       method_title: paymentData.method_title,
       paid: true
-    },
-    billing_address: this.newOrder.billing_address,
-    shipping_address: this.newOrder.shipping_address,
+    },*/
+    payment_method: paymentData.method_id,
+    payment_method_title: paymentData.method_title, 
+    set_paid: true,
+    billing: this.newOrder.billing_address,
+    shipping: this.newOrder.shipping_address,
     customer_id: this.userInfo.id || '',
     line_items : orderItems,
   };
@@ -112,10 +117,10 @@ placeOrder(){
             this.storage.get("cart").then((cart) =>{              
               let total =0.00;              
               cart.forEach((element, index) =>{
-                orderItems.push({ product_id: element.product_id, quantity: element.qty});
+                orderItems.push({ product_id: element.product.id, quantity: element.qty});
                 total = total + (element.product.price * element.qty);
               });
-
+              console.log(total.toString())
                let payment = new PayPalPayment(total.toString(), 'USD', 'This is wooionic3', 'sale');
               this.payPal.renderSinglePaymentUI(payment).then((response) => {
               // Successfully paid
@@ -126,11 +131,11 @@ placeOrder(){
               let orderData: any= {};
 
               orderData.order = data;
+              
 
-              this.WooCommerce.postAsync('orders', orderData, (data)=>{
-                alert ("order placed successfully!")
-
-                let response = (JSON.parse(data.body).order);
+              this.WooCommerce.postAsync("orders", orderData).then ((data)=>{
+                alert ("order placed successfully!");                
+                let response = (JSON.parse(data));
 
                 this.alertCtrl.create({
                   title: "Order Placed Successfully",
@@ -177,7 +182,6 @@ placeOrder(){
     let orderData: any = {};
 
     orderData.order = data;
-
     this.WooCommerce.postAsync("orders", orderData).then ((data)=>{
 
       let response = (JSON.parse(data.body).order);

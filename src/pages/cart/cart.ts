@@ -30,7 +30,7 @@ export class CartPage {
         this.cartItems = data;
         console.log(this.cartItems);
 
-        if (this.cartItems.length > 0){
+        if (this.cartItems && this.cartItems.length > 0){
           this.cartItems.forEach( (item, index) =>{
             this.total = this.total + (item.product.price * item.qty);
           })

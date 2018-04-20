@@ -84,4 +84,5 @@
     <plugin name="com.paypal.cordova.mobilesdk" spec="^3.5.0" />
     <engine name="android" spec="~7.0.0" />
     <allow-navigation href="http://10.0.0.9:8100" />
+    <allow-navigation href="http://10.191.131.65:8100" />
 </widget>
