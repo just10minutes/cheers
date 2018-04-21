@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {  NavController, NavParams, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { HomePage } from '../home/home';
+import { MenuPage } from '../menu/menu';
 import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal';
 import * as WC from 'woocommerce-api';
 
@@ -51,7 +52,8 @@ export class CheckoutPage {
       let email = userLoginInfo.user.email;
       let id = userLoginInfo.user.id;
 
-      this.WooCommerce.getAsync("customers/"+id).then((data) => {
+      //this.WooCommerce.getAsync("customers/"+id).then((data) => {
+      this.WooCommerce.getAsync("customers/email/" + email).then((data) => {
 
         this.newOrder = JSON.parse(data.body).customer;
         //console.log(this.newOrder)
@@ -90,16 +92,16 @@ placeOrder(){
    });
 
   data = {
-    /*payment_details :{
+    payment_details :{
       method_id: paymentData.method_id,
       method_title: paymentData.method_title,
       paid: true
-    },*/
-    payment_method: paymentData.method_id,
-    payment_method_title: paymentData.method_title, 
-    set_paid: true,
-    billing: this.newOrder.billing_address,
-    shipping: this.newOrder.shipping_address,
+    },
+    //payment_method: paymentData.method_id,
+    //payment_method_title: paymentData.method_title, 
+    //set_paid: true,
+    billing_address: this.newOrder.billing_address,
+    shipping_address: this.newOrder.shipping_address,
     customer_id: this.userInfo.id || '',
     line_items : orderItems,
   };
@@ -131,11 +133,13 @@ placeOrder(){
               let orderData: any= {};
 
               orderData.order = data;
+
+              console.log(orderData);
               
 
               this.WooCommerce.postAsync("orders", orderData).then ((data)=>{
                 alert ("order placed successfully!");                
-                let response = (JSON.parse(data));
+                let response = (JSON.parse(data.body).order);
 
                 this.alertCtrl.create({
                   title: "Order Placed Successfully",
@@ -143,11 +147,13 @@ placeOrder(){
                   buttons: [{
                     text: "OK",
                     handler: () =>{
-                      this.navCtrl.setRoot(HomePage)
+                      this.navCtrl.setRoot(MenuPage)
                     }
                   }]
 
                 }).present()
+
+                this.storage.remove("cart")
 
               })
 
@@ -182,8 +188,9 @@ placeOrder(){
     let orderData: any = {};
 
     orderData.order = data;
+    console.log(orderData);
     this.WooCommerce.postAsync("orders", orderData).then ((data)=>{
-
+      console.log(data);
       let response = (JSON.parse(data.body).order);
 
       this.alertCtrl.create({
@@ -192,11 +199,13 @@ placeOrder(){
         buttons: [{
           text: "OK",
           handler: () =>{
-            this.navCtrl.setRoot(HomePage)
+            this.navCtrl.setRoot(MenuPage)
           }
         }]
 
       }).present()
+
+      this.storage.remove("cart")
     })
 
 

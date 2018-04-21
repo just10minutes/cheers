@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  NavController, NavParams , ViewController} from 'ionic-angular';
+import {  NavController, NavParams , ViewController, App} from 'ionic-angular';
 
 import { Storage } from '@ionic/storage';
 import { CheckoutPage } from '../checkout/checkout';
@@ -22,7 +22,7 @@ export class CartPage {
   total: any;
   showEmptyCartMessage : boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage, public viewCtrl: ViewController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage, public viewCtrl: ViewController, public appCtrl: App) {
     
     this.total = 0.0;
     this.storage.ready().then(()=>{
@@ -69,7 +69,8 @@ export class CartPage {
   checkout(){
     this.storage.get("userLoginInfo").then( (data) =>{
       if(data != null){
-        this.navCtrl.push(CheckoutPage)
+        this.viewCtrl.dismiss();
+        this.appCtrl.getRootNav().push(CheckoutPage);        
       } else {
           this.navCtrl.push(LoginPage, {next:CheckoutPage})
 
