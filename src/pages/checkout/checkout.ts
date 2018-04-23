@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import {  NavController, NavParams, AlertController } from 'ionic-angular';
+import {  IonicPage, NavController, NavParams, AlertController, App, ViewController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import { HomePage } from '../home/home';
-import { MenuPage } from '../menu/menu';
+//import { HomePage } from '../home/home';
+//import { MenuPage } from '../menu/menu';
 import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal';
 import * as WC from 'woocommerce-api';
 
@@ -13,7 +13,7 @@ import * as WC from 'woocommerce-api';
  * Ionic pages and navigation.
  */
 
-
+@IonicPage({})
 @Component({
   selector: 'page-checkout',
   templateUrl: 'checkout.html',
@@ -26,7 +26,7 @@ export class CheckoutPage {
   billing_shipping_same: boolean;
   userInfo : any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public storage:Storage, public alertCtrl : AlertController, public payPal: PayPal) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public storage:Storage, public alertCtrl : AlertController, public payPal: PayPal, public viewCtrl: ViewController, public appCtrl: App) {
   this.newOrder = {};
   this.newOrder.billing_address = {};
   this.newOrder.shipping_address = {};
@@ -50,7 +50,7 @@ export class CheckoutPage {
       this.userInfo = userLoginInfo.user;
 
       let email = userLoginInfo.user.email;
-      let id = userLoginInfo.user.id;
+      //let id = userLoginInfo.user.id;
 
       //this.WooCommerce.getAsync("customers/"+id).then((data) => {
       this.WooCommerce.getAsync("customers/email/" + email).then((data) => {
@@ -126,7 +126,7 @@ placeOrder(){
                let payment = new PayPalPayment(total.toString(), 'USD', 'This is wooionic3', 'sale');
               this.payPal.renderSinglePaymentUI(payment).then((response) => {
               // Successfully paid
-              alert(JSON.stringify(response));
+              //alert(JSON.stringify(response));
 
               data.line_items = orderItems;
 
@@ -147,7 +147,7 @@ placeOrder(){
                   buttons: [{
                     text: "OK",
                     handler: () =>{
-                      this.navCtrl.setRoot(MenuPage)
+                      this.navCtrl.push('MenuPage');
                     }
                   }]
 
@@ -199,7 +199,9 @@ placeOrder(){
         buttons: [{
           text: "OK",
           handler: () =>{
-            this.navCtrl.setRoot(MenuPage)
+            //this.viewCtrl.dismiss();
+            //this.appCtrl.getRootNav().push('MenuPage');
+            this.navCtrl.setRoot('MenuPage');
           }
         }]
 

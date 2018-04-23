@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  NavController, NavParams, ToastController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, ModalController, App } from 'ionic-angular';
 
 import * as WC from 'woocommerce-api';
 
@@ -13,7 +13,7 @@ import {CartPage} from '../cart/cart';
  * Ionic pages and navigation.
  */
 
-
+@IonicPage({})
 @Component({
   selector: 'page-product-details',
   templateUrl: 'product-details.html',
@@ -25,7 +25,7 @@ export class ProductDetailsPage {
   WooCommerce : any;
   reviews:any[] = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage, public toastCtrl: ToastController, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage, public toastCtrl: ToastController, public modalCtrl: ModalController, public appCtrl : App) {
     this.product = this.navParams.get("product");
     console.log(this.product)
 
@@ -97,7 +97,7 @@ addToCart(product){
   });
 }
 
-openCart(){
+openCart(){  
   this.modalCtrl.create(CartPage).present();
 }
 

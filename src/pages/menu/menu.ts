@@ -1,11 +1,11 @@
 import { Component, ViewChild  } from '@angular/core';
-import {  NavController, NavParams, ModalController } from 'ionic-angular';
-import { HomePage } from '../home/home';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+//import { HomePage } from '../home/home';
 import * as WC from 'woocommerce-api';
 
-import {ProductsByCategoryPage} from '../products-by-category/products-by-category';
-import { SignupPage } from '../signup/signup';
-import { LoginPage } from '../login/login';
+//import {ProductsByCategoryPage} from '../products-by-category/products-by-category';
+//import { SignupPage } from '../signup/signup';
+//import { LoginPage } from '../login/login';
 import { CartPage } from '../cart/cart';
 import { Storage } from '@ionic/storage';
 /**
@@ -15,7 +15,7 @@ import { Storage } from '@ionic/storage';
  * Ionic pages and navigation.
  */
 
-
+@IonicPage({})
 @Component({
   selector: 'page-menu',
   templateUrl: 'menu.html',
@@ -31,7 +31,7 @@ export class MenuPage {
   user: any;
   
   constructor(public navCtrl: NavController, public navParams: NavParams, public storage:Storage, public modalCtrl: ModalController) {
-    this.homePage = HomePage
+    this.homePage = 'HomePage';
     this.categories = [];
     this.user = {};
 
@@ -86,15 +86,15 @@ export class MenuPage {
   }
 
   openCategoryPage(category){
-    this.childNavCtrl.setRoot(ProductsByCategoryPage, {"category" : category} );
+    this.childNavCtrl.setRoot('ProductsByCategoryPage', {"category" : category} );
   }
 
   openPage(pageName: string){
     if(pageName == "signup"){
-      this.navCtrl.push(SignupPage);
+      this.navCtrl.push('SignupPage');
     }
     if(pageName == "login"){
-      this.navCtrl.push(LoginPage);
+      this.navCtrl.push('LoginPage');
     }
 
     if(pageName == 'logout'){

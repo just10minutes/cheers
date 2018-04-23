@@ -86,4 +86,5 @@
     <allow-navigation href="http://10.0.0.9:8100" />
     <allow-navigation href="http://10.191.131.65:8100" />
     <allow-navigation href="http://192.168.56.1:8100" />
+    <plugin name="onesignal-cordova-plugin" spec="^2.3.3" />
 </widget>

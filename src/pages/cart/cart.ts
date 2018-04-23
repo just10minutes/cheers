@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import {  NavController, NavParams , ViewController, App} from 'ionic-angular';
 
 import { Storage } from '@ionic/storage';
-import { CheckoutPage } from '../checkout/checkout';
-import { LoginPage } from '../login/login';
+//import { CheckoutPage } from '../checkout/checkout';
+//import { LoginPage } from '../login/login';
 
 /**
  * Generated class for the CartPage page.
@@ -67,13 +67,14 @@ export class CartPage {
   }
 
   checkout(){
-    this.storage.get("userLoginInfo").then( (data) =>{
+     this.storage.get("userLoginInfo").then( (data) => {
       if(data != null){
-        this.viewCtrl.dismiss();
-        this.appCtrl.getRootNav().push(CheckoutPage);        
+        //this.navCtrl.push('CheckoutPage');
+        this.viewCtrl.dismiss();     
+        this.appCtrl.getRootNav().push('CheckoutPage');
+         
       } else {
-          this.navCtrl.push(LoginPage, {next:CheckoutPage})
-
+        this.navCtrl.push('LoginPage', {next: 'CheckoutPage'})
       }
     })
   }

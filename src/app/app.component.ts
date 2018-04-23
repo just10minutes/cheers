@@ -3,8 +3,8 @@ import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { MenuPage } from '../pages/menu/menu';
-
+//import { MenuPage } from '../pages/menu/menu';
+import { OneSignal} from '@ionic-native/onesignal';
 
 @Component({
   templateUrl: 'app.html'
@@ -12,11 +12,11 @@ import { MenuPage } from '../pages/menu/menu';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = MenuPage;
+  rootPage: any = 'MenuPage';
 
   
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public oneSignal: OneSignal ) {
     this.initializeApp();
 
 
@@ -29,6 +29,22 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+       if (this.platform.is('cordova')) {
+          this.oneSignal.startInit('e95801e6-a438-45f5-b55f-96707f69d6ce', '844289088375');
+
+          this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.InAppAlert);
+
+          this.oneSignal.handleNotificationReceived().subscribe(() => {
+          // do something when notification is received
+          });
+
+          this.oneSignal.handleNotificationOpened().subscribe(() => {
+            // do something when a notification is opened
+          });
+
+          this.oneSignal.endInit();
+       }
     });
   }
 
