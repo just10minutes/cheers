@@ -1,7 +1,8 @@
 import { Component, ViewChild  } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, Events } from 'ionic-angular';
+import { WoocommerceProvider } from '../../providers/woocommerce/woocommerce';
 //import { HomePage } from '../home/home';
-import * as WC from 'woocommerce-api';
+//import * as WC from 'woocommerce-api';
 
 //import {ProductsByCategoryPage} from '../products-by-category/products-by-category';
 //import { SignupPage } from '../signup/signup';
@@ -30,16 +31,12 @@ export class MenuPage {
   loggedIn: boolean;
   user: any;
   
-  constructor(public navCtrl: NavController, public navParams: NavParams, public storage:Storage, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public storage:Storage, public modalCtrl: ModalController, public events: Events, private WP : WoocommerceProvider) {
     this.homePage = 'HomePage';
     this.categories = [];
     this.user = {};
 
-    this.WooCommerce = WC({
-      url: "https://hkspices.co.za/",
-      consumerKey: "ck_7bc3ddf9f2f9aef00cea83d2b6736656beb4d612",
-      consumerSecret: "cs_bbc7ed7b3b3c2e78d54f27da50f4de0d03152e12"
-    });
+    this.WooCommerce = WP.init()
 
     this.WooCommerce.getAsync("products/categories").then( (data) => {
       console.log(JSON.parse(data.body).product_categories);
@@ -62,6 +59,7 @@ export class MenuPage {
     }, (err) => {
       console.log(err)
     } )
+
   }
 
   ionViewDidEnter() {

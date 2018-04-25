@@ -4,7 +4,8 @@ import { Storage } from '@ionic/storage';
 //import { HomePage } from '../home/home';
 //import { MenuPage } from '../menu/menu';
 import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal';
-import * as WC from 'woocommerce-api';
+//import * as WC from 'woocommerce-api';
+import { WoocommerceProvider } from '../../providers/woocommerce/woocommerce';
 
 /**
  * Generated class for the CheckoutPage page.
@@ -26,7 +27,8 @@ export class CheckoutPage {
   billing_shipping_same: boolean;
   userInfo : any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public storage:Storage, public alertCtrl : AlertController, public payPal: PayPal, public viewCtrl: ViewController, public appCtrl: App) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public storage:Storage, public alertCtrl : AlertController, public payPal: PayPal, public viewCtrl: ViewController, public appCtrl: App, private WP : WoocommerceProvider
+) {
   this.newOrder = {};
   this.newOrder.billing_address = {};
   this.newOrder.shipping_address = {};
@@ -39,11 +41,7 @@ export class CheckoutPage {
       { method_id: "paypal", method_title: "PayPal" }
   ];
 
-  this.WooCommerce = WC({
-      url: "https://hkspices.co.za/",
-      consumerKey: "ck_7bc3ddf9f2f9aef00cea83d2b6736656beb4d612",
-      consumerSecret: "cs_bbc7ed7b3b3c2e78d54f27da50f4de0d03152e12"
-    });
+  this.WooCommerce = WP.init();
 
     this.storage.get("userLoginInfo").then( (userLoginInfo) => {
 
@@ -202,12 +200,13 @@ placeOrder(){
             //this.viewCtrl.dismiss();
             //this.appCtrl.getRootNav().push('MenuPage');
             this.navCtrl.setRoot('MenuPage');
+            //this.appCtrl.getRootNavs()[0].setRoot('MenuPage');
           }
         }]
 
       }).present()
 
-      this.storage.remove("cart")
+      this.storage.remove("cart");
     })
 
 

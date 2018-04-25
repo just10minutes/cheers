@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-import * as WC from 'woocommerce-api';
+//import * as WC from 'woocommerce-api';
+import { WoocommerceProvider } from '../../providers/woocommerce/woocommerce';
+
 
 //import { ProductDetailsPage } from '../product-details/product-details';
 
@@ -24,16 +26,12 @@ export class ProductsByCategoryPage {
   page: number;
   category: any; 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,private WP : WoocommerceProvider) {
 
     this.page = 2;
     this.category = this.navParams.get("category")
 
-    this.WooCommerce = WC({
-      url: "https://hkspices.co.za/",
-      consumerKey: "ck_7bc3ddf9f2f9aef00cea83d2b6736656beb4d612",
-      consumerSecret: "cs_bbc7ed7b3b3c2e78d54f27da50f4de0d03152e12"
-    });
+    this.WooCommerce = WP.init();
 
 this.WooCommerce.getAsync("products?filter[category]=" + this.category.slug).then( (data) => {
       console.log(JSON.parse(data.body));
