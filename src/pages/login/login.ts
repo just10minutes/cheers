@@ -69,4 +69,8 @@ login(){
 
   }
 
+  goToSignup(){
+    this.navCtrl.push('SignupPage');
+  }
+
 }

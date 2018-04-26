@@ -38,7 +38,7 @@ export class CheckoutPage {
       { method_id: "bacs", method_title: "Direct Bank Transfer" },
       { method_id: "cheque", method_title: "Cheque Payment" },
       { method_id: "cod", method_title: "Cash on Delivery" },
-      { method_id: "paypal", method_title: "PayPal" }
+      // { method_id: "paypal", method_title: "PayPal" }
   ];
 
   this.WooCommerce = WP.init();
