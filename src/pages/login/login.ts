@@ -26,7 +26,7 @@ export class LoginPage {
 login(){
 
     //this.http.get("http://samarth.cloudapp.net/api/auth/generate_auth_cookie/?insecure=cool&username=" + this.username + "&password=" + this.password)
-    this.http.get("https://hkspices.co.za/api/auth/generate_auth_cookie/?username=" + this.username + "&password=" + this.password)
+    this.http.get("http://www.olifant.co.za/test/api/auth/generate_auth_cookie/?insecure=cool&username=" + this.username + "&password=" + this.password)
     .subscribe( (res) => {
       console.log(res.json());
 

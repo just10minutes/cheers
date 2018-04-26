@@ -6,9 +6,9 @@ export class WoocommerceProvider {
   WooCommerce: any;
   constructor() {
      this.WooCommerce = WC({
-      url: "https://hkspices.co.za/",
-      consumerKey: "ck_7bc3ddf9f2f9aef00cea83d2b6736656beb4d612",
-      consumerSecret: "cs_bbc7ed7b3b3c2e78d54f27da50f4de0d03152e12"
+      url: "http://www.olifant.co.za/test/",
+      consumerKey: "ck_8693327a7ccde7bb6b78ab4f57c6a64fb5d93378",
+      consumerSecret: "cs_6ce9d88724d2e15391ef7b7d3738b8776537232b"
     });
   }
 
